@@ -11,4 +11,5 @@ RUN addgroup -S app && adduser -S app -G app
 USER app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
+# Render sets PORT; Spring Boot reads server.port=${PORT:8080} from application.yml
 ENTRYPOINT ["java", "-jar", "app.jar"]

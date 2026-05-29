@@ -87,7 +87,7 @@ Neither Vercel nor Render hosts MySQL. You need a **cloud MySQL** instance (e.g.
 | Step | Platform | What |
 |------|----------|------|
 | 1 | Railway / Aiven / etc. | Create MySQL, get JDBC URL |
-| 2 | [Render](https://render.com) | Deploy `backend/` (Java Web Service) |
+| 2 | [Render](https://render.com) | Deploy `backend/` as **Docker** Web Service |
 | 3 | [Vercel](https://vercel.com) | Deploy `frontend/` with `VITE_API_URL` = Render URL |
 
 **Detailed guides:**
@@ -103,9 +103,9 @@ Copy `.env.railway.example` → `.env` for local testing with Railway (do not co
 
 | Setting | Value |
 |---------|--------|
+| Language | **Docker** (Java is not in Render’s dropdown) |
 | Root Directory | `backend` |
-| Build | `mvn clean package -DskipTests` |
-| Start | `java -jar target/hospital-management-api-1.0.0.jar` |
+| Dockerfile | `./Dockerfile` (builds Java 17 + Spring Boot inside Docker) |
 | Health check | `/actuator/health` |
 
 Env: `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `SPRING_PROFILES_ACTIVE=prod`, `CORS_ALLOWED_ORIGINS`, `CORS_ALLOWED_ORIGIN_PATTERNS`

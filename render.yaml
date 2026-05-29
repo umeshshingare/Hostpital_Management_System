@@ -1,12 +1,11 @@
 # Render Blueprint: https://render.com/docs/blueprint-spec
-# Deploy backend only. Use external MySQL (Railway, Aiven, etc.) — see README.md
+# Java is not in Render's native runtime list — use Docker (backend/Dockerfile).
 services:
   - type: web
     name: hospital-management-api
-    runtime: java
+    runtime: docker
     rootDir: backend
-    buildCommand: mvn clean package -DskipTests
-    startCommand: java -jar target/hospital-management-api-1.0.0.jar
+    dockerfilePath: ./Dockerfile
     healthCheckPath: /actuator/health
     envVars:
       - key: SPRING_PROFILES_ACTIVE

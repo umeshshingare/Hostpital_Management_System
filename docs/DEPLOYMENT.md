@@ -38,9 +38,9 @@ See [DATABASE.md](./DATABASE.md) for managing data after deploy.
 | Setting | Value |
 |---------|--------|
 | Root Directory | `backend` |
-| Runtime | Java |
-| Build Command | `mvn clean package -DskipTests` |
-| Start Command | `java -jar target/hospital-management-api-1.0.0.jar` |
+| Runtime | **Docker** (Render has no native Java; uses `backend/Dockerfile`) |
+| Dockerfile Path | `./Dockerfile` |
+| Build / Start Command | *(leave empty)* |
 | Health Check Path | `/actuator/health` |
 
 5. **Environment variables:**

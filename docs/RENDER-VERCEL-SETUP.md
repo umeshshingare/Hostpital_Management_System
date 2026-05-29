@@ -42,12 +42,13 @@ Details: [RAILWAY-MYSQL.md](./RAILWAY-MYSQL.md)
 | **Region** | `Oregon (US West)` or same as your other services |
 | **Branch** | `main` |
 | **Root Directory** | `backend` |
-| **Runtime / Language** | **Java** — scroll the list; do **NOT** pick Rust, Node, or Docker unless you use Dockerfile |
-| **Build Command** | `mvn clean package -DskipTests` |
-| **Start Command** | `java -jar target/hospital-management-api-1.0.0.jar` |
+| **Runtime / Language** | **Docker** (Java is not in Render’s list — our `backend/Dockerfile` builds the Spring Boot app) |
+| **Dockerfile Path** | `./Dockerfile` (default when root is `backend`) |
+| **Build Command** | *(leave empty — Docker builds everything)* |
+| **Start Command** | *(leave empty — defined in Dockerfile)* |
 | **Instance type** | Free (or paid) |
 
-> **From your screenshot:** Language was set to **Rust** — change it to **Java** or the build will fail.
+> **Important:** Do **not** pick Rust, Node, or Python. Select **Docker** only.
 
 ### B3. Advanced (expand if hidden)
 
@@ -169,7 +170,7 @@ Save → Render will redeploy automatically.
 
 | Mistake | Fix |
 |---------|-----|
-| Render Language = Rust | Change to **Java** |
+| Wrong language (Rust, Node, etc.) | Select **Docker**; Root Directory = `backend` |
 | Root Directory empty | Set `backend` on Render, `frontend` on Vercel |
 | `VITE_API_URL` missing | Add on Vercel, redeploy |
 | CORS error | Set `CORS_ALLOWED_ORIGINS` to exact Vercel URL |
