@@ -92,8 +92,12 @@ Neither Vercel nor Render hosts MySQL. You need a **cloud MySQL** instance (e.g.
 
 **Detailed guides:**
 
-- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — Vercel & Render settings, env vars, common problems  
-- [docs/DATABASE.md](docs/DATABASE.md) — Schema, Flyway, backups, querying data after deploy  
+- **[docs/RENDER-VERCEL-SETUP.md](docs/RENDER-VERCEL-SETUP.md)** — **Step-by-step form fields** for Render + Vercel  
+- [docs/RAILWAY-MYSQL.md](docs/RAILWAY-MYSQL.md) — Map Railway MySQL credentials to Render  
+- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — Overview, env vars, common problems  
+- [docs/DATABASE.md](docs/DATABASE.md) — Schema, Flyway, backups  
+
+Copy `.env.railway.example` → `.env` for local testing with Railway (do not commit `.env`).
 
 ### Render (backend) — summary
 
