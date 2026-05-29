@@ -1,15 +1,20 @@
-FROM maven:3.9-eclipse-temurin-17-alpine AS build
+# Render deploys via Docker (no native Java runtime on Render)
+FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
-COPY src ./src
-RUN mvn package -DskipTests -B
 
-FROM eclipse-temurin:17-jre-alpine
+COPY pom.xml .
+COPY src ./src
+
+RUN mvn -B -DskipTests package
+
+FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
-RUN addgroup -S app && adduser -S app -G app
-USER app
-COPY --from=build /app/target/*.jar app.jar
+
+# Must be exact name — COPY target/*.jar fails when .jar.original also exists
+COPY --from=build /app/target/hospital-management-api-1.0.0.jar app.jar
+
+ENV PORT=8080
 EXPOSE 8080
-# Render sets PORT; Spring Boot reads server.port=${PORT:8080} from application.yml
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+# Container-friendly memory settings for Render free tier (~512MB)
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "-jar", "app.jar"]

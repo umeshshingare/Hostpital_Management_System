@@ -31,8 +31,10 @@ convert it to JDBC (see below).
 Replace placeholders with your Railway values:
 
 ```
-jdbc:mysql://MYSQLHOST:MYSQLPORT/MYSQLDATABASE?useSSL=true&requireSSL=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
+jdbc:mysql://MYSQLHOST:MYSQLPORT/MYSQLDATABASE?useSSL=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
 ```
+
+Use Railway’s **public** TCP host (Variables tab → public URL), not `*.railway.internal` (only works inside Railway).
 
 **Example** (fake values):
 

@@ -7,6 +7,9 @@ services:
     rootDir: backend
     dockerfilePath: ./Dockerfile
     healthCheckPath: /actuator/health
+    # Allow time for Docker build + Flyway migrations on first deploy
+    healthCheckInitialDelay: 180
+    plan: free
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod

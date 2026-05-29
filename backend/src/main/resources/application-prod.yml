@@ -1,12 +1,32 @@
 spring:
   jpa:
     show-sql: false
+  datasource:
+    # Use DB_URL on Render, OR set Railway variables: MYSQLHOST, MYSQLPORT, MYSQLUSER, MYSQLPASSWORD, MYSQLDATABASE
+    url: ${DB_URL:jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}?useSSL=true&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:${MYSQLUSER}}
+    password: ${DB_PASSWORD:${MYSQLPASSWORD}}
+    hikari:
+      connection-timeout: 60000
+      initialization-fail-timeout: 60000
+  flyway:
+    connect-retries: 30
+    connect-retries-interval: 10
 
 app:
   cors:
     allowed-origin-patterns: ${CORS_ALLOWED_ORIGIN_PATTERNS:https://*.vercel.app}
 
+management:
+  endpoint:
+    health:
+      show-details: always
+  health:
+    db:
+      enabled: true
+
 logging:
   level:
     root: WARN
     com.hospital: INFO
+    org.flywaydb: INFO
