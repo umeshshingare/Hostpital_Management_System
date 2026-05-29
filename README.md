@@ -1,76 +1,85 @@
 # Hospital Management System
 
-Full-stack hospital management web app: **React** frontend, **Spring Boot** REST API, and **MySQL** database.
+Modern full-stack Hospital Management System built using React, Spring Boot, and MySQL.
 
-**Repository:** [github.com/umeshshingare/Hostpital_Management_System](https://github.com/umeshshingare/Hostpital_Management_System)
+## 🚀 Live Deployment
 
-## Features
+### Frontend (Vercel)
+https://hostpital-management-system-lyart.vercel.app
 
-- Patient registration and listing (validated)
-- Doctor management (CRUD via API)
-- Appointment booking (one per doctor per day, DB-enforced)
+### Backend API (Render)
+https://hostpital-management-system.onrender.com
+---
+
+## ✨ Features
+
+- Patient registration & management
+- Doctor management system
+- Appointment booking
 - Appointment cancellation
 - Dashboard statistics
-- Flyway migrations (schema + seed doctors)
-- Docker Compose for local full stack
-- Ready for **Vercel** (frontend) + **Render** (backend) + **cloud MySQL**
+- RESTful API architecture
+- MySQL database integration
+- Flyway database migrations
+- Docker support
+- Cloud deployment ready
 
-## Tech stack
+---
+
+## 🛠 Tech Stack
 
 | Layer | Technology |
 |-------|------------|
-| Frontend | React 18, Vite, React Router, Axios |
-| Backend | Spring Boot 3.2, JPA, Validation, Flyway, Actuator |
-| Database | MySQL 8 |
-| Local deploy | Docker Compose |
-| Cloud deploy | Vercel + Render + external MySQL |
+| Frontend | React, Vite, Axios, React Router |
+| Backend | Spring Boot, JPA, Hibernate |
+| Database | MySQL |
+| Deployment | Vercel, Render |
+| Tools | Docker, Flyway |
 
-## Project structure
+---
 
-```
-├── frontend/           React SPA (deploy to Vercel)
-├── backend/            Spring Boot API (deploy to Render)
+## 📁 Project Structure
+
+```bash
+Hospital-Management-System/
+│
+├── frontend/
+├── backend/
 ├── docs/
-│   ├── DEPLOYMENT.md   Vercel + Render step-by-step
-│   └── DATABASE.md     Using MySQL after deploy
-├── legacy-console/     Original CLI Java app
-├── render.yaml         Render blueprint (backend)
-├── docker-compose.yml  Local MySQL + optional full stack
+├── docker-compose.yml
+├── render.yaml
 └── README.md
 ```
 
-## Quick start (local)
+---
 
-### Option A — Docker (full stack)
+## ⚙️ Local Setup
 
-```bash
-docker compose up --build -d
-```
-
-- UI: http://localhost  
-- API: http://localhost:8080  
-
-### Option B — Dev servers
-
-**1. MySQL**
+### Clone Repository
 
 ```bash
-docker compose up mysql -d
+git clone https://github.com/umeshshingare/Hostpital_Management_System.git
+cd Hostpital_Management_System
 ```
 
-Uses host port **3307** (see `.env.example`).
+---
 
-**2. Backend**
+## 🔧 Backend Setup
 
 ```bash
 cd backend
-# PowerShell:
-$env:DB_URL="jdbc:mysql://localhost:3307/hospital?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
-$env:DB_PASSWORD="hospital_secret"
-.\mvnw.cmd spring-boot:run
+./mvnw spring-boot:run
 ```
 
-**3. Frontend**
+Backend runs on:
+
+```bash
+http://localhost:8080
+```
+
+---
+
+## 💻 Frontend Setup
 
 ```bash
 cd frontend
@@ -78,86 +87,54 @@ npm install
 npm run dev
 ```
 
-- UI: http://localhost:5173 (proxies `/api` → backend)
+Frontend runs on:
 
-## Deploy to production (Vercel + Render)
+```bash
+http://localhost:5173
+```
 
-Neither Vercel nor Render hosts MySQL. You need a **cloud MySQL** instance (e.g. Railway, Aiven).
+---
 
-| Step | Platform | What |
-|------|----------|------|
-| 1 | Railway / Aiven / etc. | Create MySQL, get JDBC URL |
-| 2 | [Render](https://render.com) | Deploy `backend/` as **Docker** Web Service |
-| 3 | [Vercel](https://vercel.com) | Deploy `frontend/` with `VITE_API_URL` = Render URL |
+## 🔐 Environment Variables
 
-**Detailed guides:**
+### Backend
 
-- **[docs/RENDER-VERCEL-SETUP.md](docs/RENDER-VERCEL-SETUP.md)** — **Step-by-step form fields** for Render + Vercel  
-- [docs/RAILWAY-MYSQL.md](docs/RAILWAY-MYSQL.md) — Map Railway MySQL credentials to Render  
-- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — Overview, env vars, common problems  
-- [docs/DATABASE.md](docs/DATABASE.md) — Schema, Flyway, backups  
+```env
+DB_URL=
+DB_USERNAME=
+DB_PASSWORD=
+CORS_ALLOWED_ORIGINS=
+```
 
-Copy `.env.railway.example` → `.env` for local testing with Railway (do not commit `.env`).
+### Frontend
 
-### Render (backend) — summary
+```env
+VITE_API_URL=
+```
 
-| Setting | Value |
-|---------|--------|
-| Language | **Docker** (Java is not in Render’s dropdown) |
-| Root Directory | `backend` |
-| Dockerfile | `./Dockerfile` (builds Java 17 + Spring Boot inside Docker) |
-| Health check | `/actuator/health` |
+---
 
-Env: `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `SPRING_PROFILES_ACTIVE=prod`, `CORS_ALLOWED_ORIGINS`, `CORS_ALLOWED_ORIGIN_PATTERNS`
+## 📌 API Endpoints
 
-### Vercel (frontend) — summary
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/patients` | Get patients |
+| POST | `/api/patients` | Add patient |
+| GET | `/api/doctors` | Get doctors |
+| POST | `/api/doctors` | Add doctor |
+| GET | `/api/appointments` | Get appointments |
+| POST | `/api/appointments` | Book appointment |
+| DELETE | `/api/appointments/{id}` | Cancel appointment |
 
-| Setting | Value |
-|---------|--------|
-| Root Directory | `frontend` |
-| Build | `npm run build` |
-| Output | `dist` |
-| Env | `VITE_API_URL=https://your-api.onrender.com` |
+---
 
-Redeploy Vercel after changing `VITE_API_URL`.
+## 🌍 Deployment
 
-## API endpoints
+### Frontend
+Deployed on Vercel.
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/api/dashboard/stats` | Dashboard counts |
-| GET/POST | `/api/patients` | List / create |
-| GET/POST | `/api/doctors` | List / create |
-| GET/POST | `/api/appointments` | List / book |
-| DELETE | `/api/appointments/{id}` | Cancel |
-| GET | `/actuator/health` | Health check |
+### Backend
+Deployed on Render using Docker.
 
-## Environment variables
-
-Copy `.env.example`. Never commit `.env` with real passwords.
-
-| Variable | Where | Purpose |
-|----------|--------|---------|
-| `DB_URL` | Render | JDBC connection to cloud MySQL |
-| `DB_USERNAME` / `DB_PASSWORD` | Render | DB credentials |
-| `CORS_ALLOWED_ORIGINS` | Render | Your Vercel production URL |
-| `CORS_ALLOWED_ORIGIN_PATTERNS` | Render | e.g. `https://*.vercel.app` |
-| `VITE_API_URL` | Vercel | Render API base URL (build-time) |
-
-## Common deployment issues
-
-| Issue | Fix |
-|-------|-----|
-| CORS blocked | Set `CORS_ALLOWED_ORIGINS` to exact Vercel URL |
-| API not found | Set `VITE_API_URL` on Vercel, redeploy |
-| Slow first request | Render free tier cold start (~50s) |
-| DB connection failed | SSL in JDBC URL; check host allows external connections |
-| Empty doctors list | Check Flyway logs; V2 seeds 5 doctors on first run |
-
-## License
-
-MIT (or your choice — add `LICENSE` if needed).
-
-## Author
-
-[umeshshingare](https://github.com/umeshshingare)
+### Database
+Hosted on Railway MySQL.
